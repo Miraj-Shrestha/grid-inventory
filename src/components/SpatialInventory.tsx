@@ -17,9 +17,19 @@ export function SpatialInventory() {
   }, []);
 
   async function fetchItems() {
-    const res = await fetch("/api/items");
-    const data = await res.json();
-    setItems(data);
+    try {
+      const res = await fetch("/api/items");
+      if (!res.ok) {
+        console.error("Failed to fetch. Is the database connected?");
+        return;
+      }
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setItems(data);
+      }
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
   }
 
   async function handleSaveItem(data: any) {
