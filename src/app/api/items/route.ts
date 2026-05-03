@@ -8,6 +8,7 @@ export async function GET() {
     const items = await prisma.item.findMany();
     return NextResponse.json(items);
   } catch (error) {
+    console.error("Prisma Error in GET /api/items:", error);
     return NextResponse.json({ error: "Failed to fetch items" }, { status: 500 });
   }
 }
@@ -26,6 +27,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(newItem, { status: 201 });
   } catch (error) {
+    console.error("Prisma Error in POST /api/items:", error);
     return NextResponse.json({ error: "Failed to create item" }, { status: 500 });
   }
 }
