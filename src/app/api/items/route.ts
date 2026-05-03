@@ -7,9 +7,12 @@ export async function GET() {
   try {
     const items = await prisma.item.findMany();
     return NextResponse.json(items);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Prisma Error in GET /api/items:", error);
-    return NextResponse.json({ error: "Failed to fetch items" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to fetch items", 
+      details: error?.message || String(error)
+    }, { status: 500 });
   }
 }
 

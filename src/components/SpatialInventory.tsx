@@ -20,7 +20,9 @@ export function SpatialInventory() {
     try {
       const res = await fetch("/api/items");
       if (!res.ok) {
-        console.error("Failed to fetch. Is the database connected?");
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Database connection failed!");
+        console.error("Exact Reason:", errorData.details || "Unknown");
         return;
       }
       const data = await res.json();
